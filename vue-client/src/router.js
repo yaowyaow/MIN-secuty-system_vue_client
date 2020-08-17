@@ -12,6 +12,7 @@ import InvasionList2 from './views/InvasionList2'
 import InvasionList3 from './views/InvasionList3'
 import InvasionList5 from './views/InvasionList5'
 import InvasionMap from './views/InvasionMap'
+import UEBA from "@/views/UEBA";
 Vue.use(Router)
 
 const router = new Router({
@@ -36,6 +37,7 @@ const router = new Router({
         {path:'/invasionMap',name:"invasionMap",component:InvasionMap},
         {path:'/infoshow',name:"infoshow",component:Infoshow},
         {path:'/fundList',name:"fundList",component:FundList},
+        {path: '/ueba', name: "ueba", component: UEBA}
       ]
     },
     {
