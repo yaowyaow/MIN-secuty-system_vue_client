@@ -83,12 +83,28 @@ export default {
     },
 
     mounted(){
+        this.getDatasource() 
+    },
+
+    computed:{
+        user() {
+    }
+    },
+
+    created(){
+        //this.getAlert();
         
-        console.log("***************************\nactivated tes\n");
+
+    },
+
+
+    methods:{
+        async getDatasource(){
+             console.log("***************************\nactivated tes\n");
         this.$socket.emit("request", "request");
         this.$socket.open();
         console.log(this);
-        this.sockets.listener.subscribe('data', (res) =>{
+        await this.sockets.listener.subscribe('data', (res) =>{
             //读取数据，将数据转化为x轴与y轴的列表
             var list_x = [];
             
@@ -105,6 +121,7 @@ export default {
                             }
                     }
                 })
+                
             }
             
             this.char_x = list_x;
@@ -126,7 +143,7 @@ export default {
         });
     
         //接收主机态势威胁值的数据，并进行提取处理
-        this.sockets.listener.subscribe('host_value', (res) =>{
+        await this.sockets.listener.subscribe('host_value', (res) =>{
             console.log("host_value");
             console.log("========================",res);
             var host_list_x = [];
@@ -168,7 +185,7 @@ export default {
         });      
 
         //接受网络态势预测值
-        this.sockets.listener.subscribe('predict_data', (res) =>{
+        await this.sockets.listener.subscribe('predict_data', (res) =>{
             //读取数据，将数据转化为x轴与y轴的列表
             var list_x = [];
             console.log("预测数据值", res);
@@ -206,7 +223,7 @@ export default {
         });
 
 
-        this.sockets.listener.subscribe('predict_host_value', (res) =>{
+        await this.sockets.listener.subscribe('predict_host_value', (res) =>{
             //读取数据，将数据转化为x轴与y轴的列表
             var list_x = [];
             console.log("预测主机态势值", res);
@@ -245,23 +262,8 @@ export default {
         //io('http://116.77.74.139:9002').on('data', (res) => {
         //    console.log("我没有收到");
         //    console.log('socket.io-client', res)
-        //})      
-    },
-
-    computed:{
-        user() {
-    }
-    },
-
-    created(){
-        //this.getAlert();
-        
-
-    },
-
-
-    methods:{
-
+        //})     
+        },
         reload () {
                 this.isRouterAlive = false;            //先关闭，
                 this.$nextTick(function () {
@@ -398,6 +400,7 @@ export default {
                         }
                 },
             
+                
                 yAxis: {
                     title: {
                         text: "威胁值"

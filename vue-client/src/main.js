@@ -47,7 +47,7 @@ Vue.use(new VueSocketIO({
 
         debug: true,
   
-        connection: SocketIO('http://121.15.171.82:9002'),
+        connection: SocketIO('http://121.15.171.90:9002'),
 
         
   
