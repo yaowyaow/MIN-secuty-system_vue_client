@@ -12,8 +12,8 @@
             </el-form>
         </div>
 
-        <div style = "display:inline-block;" id="container" class="echarts" :style = " {width: '700px' ,height: '300px'} "></div>
-        <div style = "display:inline-block;left:70px;" id = "container_2" :style = " {width: '700px' ,height: '300px'} " ></div>
+        <div style = "display:inline-block; POSITION:absolute;top:8px;width:50%;height:300px" id="container" class="echarts" ></div>
+        <div style = "display:inline-block; POSITION:absolute;top:8px;width:50%;height:300px" id = "container_2"  ></div>
 
         <div class="table_container">
             <el-table
