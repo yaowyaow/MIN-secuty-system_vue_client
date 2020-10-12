@@ -13,6 +13,8 @@ import InvasionList3 from './views/InvasionList3'
 import InvasionList5 from './views/InvasionList5'
 import InvasionMap from './views/InvasionMap'
 import firewall from './views/firewall.vue'
+import VisNetwork from './views/VisNetwork.vue'
+import HostInfo from './views/HostInfo.vue'
 import UEBA from "@/views/UEBA";
 Vue.use(Router)
 
@@ -39,7 +41,9 @@ const router = new Router({
         {path:'/infoshow',name:"infoshow",component:Infoshow},
         {path:'/fundList',name:"fundList",component:FundList},
         {path:'/firewall',name:"firewall",component:firewall},
-        {path: '/ueba', name: "ueba", component: UEBA}
+        {path: '/ueba', name: "ueba", component: UEBA},
+        {path: '/VisNetwork', name: "VisNetwork", component: VisNetwork},
+        {path: '/Hostinfo', name: "Hostinfo", component: HostInfo},
       ]
     },
     {

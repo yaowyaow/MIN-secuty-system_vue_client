@@ -45,7 +45,7 @@ export default {
           icon: "fa-exclamation-triangle",
           name: "主机检测",
           path: "invasion",
-          children: [{ path: "fundList", name: "警告列表" }]
+          children: [{ path: "fundList", name: "警告列表" },{ path: "HostInfo", name: "主机信息"},{ path: "VisNetwork", name: "网络拓扑" }]
         },
         {
           icon: "fa-asterisk",
