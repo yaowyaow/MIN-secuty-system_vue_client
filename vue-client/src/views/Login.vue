@@ -2,20 +2,20 @@
     <div class="login">
         <section class="form_container">
             <div class="manage_tip">
-                <span class="title">MIN-OA安全感知系统</span>
+                <span class="title" >MIN-OA安全感知系统</span>
                 <!-- 调用element form组件表单  对应 rules="rules" -->
-                <el-form :model="loginUser" :rules="rules" ref="loginFrom" label-width="60px" class="loginForm">
+                <el-form :model="loginUser" :rules="rules" ref="loginForm" label-width="60px" class="loginForm">
                  
                     <el-form-item label="邮箱" prop="email">
                         <el-input  v-model="loginUser.email" placeholder="请输入email"></el-input>
                     </el-form-item>
                     
                     <el-form-item label="密码" prop="password">
-                        <el-input type="password" v-model="loginUser.password" placeholder="请输入密码"></el-input>
+                        <el-input type="password" v-model="loginUser.password" placeholder="请输入密码" ></el-input>
                     </el-form-item>
                     
                     <el-form-item>
-                        <el-button type="primary" class="submit_btn"  @click="submitFrom('loginFrom')">登录</el-button>
+                        <el-button type="primary" class="submit_btn"  @click="submitForm('loginForm')">登录</el-button>
                     </el-form-item>
 
                     <div class="tipare">
@@ -58,7 +58,7 @@ export default {
     },
     methods:{
         //点击注册的方法
-        submitFrom(formName){
+        submitForm(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.$axios.post('/api/users/login',this.loginUser).then(res => {
@@ -72,7 +72,7 @@ export default {
                         // token 存储ls vuex中 解析token
                         const decode =jwt_decode(token);
 
-                        // console.log(token);
+                        // console.log(decode);
                         // 存储数据
                         this.$store.dispatch("setIsAutnenticated", !this.isEmpty(decode));
                         this.$store.dispatch("setUser", decode);

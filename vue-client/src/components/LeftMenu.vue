@@ -5,26 +5,34 @@
                 class="el-menu-vertical-demo">
                 <router-link to="/home">
                     <el-menu-item index="0">
-                        <i class="fa fa-margin fa-server"></i>
+                        
                         <span slot="title">首页</span>
                     </el-menu-item>
                 </router-link>
-                <template  v-for="item in items" >
-                    <el-submenu v-if="item.children" :index="item.path" :key="item.path">
-                        <template slot="title">
-                            <i :class="'fa fa-margin '+item.icon"></i>
-                            <span slot="title">{{item.name}}</span>
-                        </template>
-                        <router-link v-for="(citem,cindex) in item.children" 
-                            :to="citem.path" :key="cindex">
-                            <el-menu-item 
-                                :index='citem.path'>
-                                <span slot="title">{{citem.name}}</span>
-                            </el-menu-item> 
-                        </router-link>
-                    </el-submenu>
-                    
-                </template>
+                <router-link to="/invasionList5">
+                    <el-menu-item index="1">
+                        
+                        <span slot="title">态势威胁值曲线</span>
+                    </el-menu-item>
+                </router-link>
+                <router-link to="/invasionMap">
+                    <el-menu-item index="2">
+                        
+                        <span slot="title">态势展示</span>
+                    </el-menu-item>
+                </router-link>
+                <router-link to="/firewall">
+                    <el-menu-item index="3">
+                        
+                        <span slot="title">防火墙</span>
+                    </el-menu-item>
+                </router-link>
+                <router-link to="/VisNetwork">
+                    <el-menu-item index="4">
+                        
+                        <span slot="title">网络拓扑</span>
+                    </el-menu-item>
+                </router-link>
              </el-menu>
          </el-col>
     </el-row>
@@ -45,7 +53,7 @@ export default {
           icon: "fa-exclamation-triangle",
           name: "主机检测",
           path: "invasion",
-          children: [{ path: "fundList", name: "警告列表" },{ path: "HostInfo", name: "主机信息"},{ path: "VisNetwork", name: "网络拓扑" }]
+          children: [{ path: "fundList", name: "警告列表" },{ path: "HostInfo", name: "主机信息"},{ path: "VisNetwork", name: "网络拓扑" },{path: "AssetCenter", name: "资产中心"}]
         },
         {
           icon: "fa-asterisk",

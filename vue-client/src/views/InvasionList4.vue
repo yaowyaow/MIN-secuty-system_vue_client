@@ -56,8 +56,7 @@
                     :page-sizes="paginations.page_sizes"
                     :page-size="paginations.page_size"
                     :layout="paginations.layout"
-                    :total="pagination
-                    s.total"
+                    :total="paginations.total"
                     :current-page.sync="paginations.page_index"
                     @current-change="handleCurrentChange"
                     @size-change="handleSizeChange"

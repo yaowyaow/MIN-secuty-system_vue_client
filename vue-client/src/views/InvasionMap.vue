@@ -109,7 +109,7 @@ export default {
     }
     },
     created(){
-        this.getScore();
+        //this.getScore();
     },
     mounted(){
         this.getScore();
@@ -120,10 +120,12 @@ export default {
     methods:{
         getScore(){
             this.$axios.get('/api/ids_log/SA_value').then(res => {
+                console.log(res.data)
                 this.SA_value = res.data[0].value;
             }).catch(err => console.log(err));
 
             this.$axios.get('/api/ids_log/SA_host_value').then(res => {
+                console.log(res.data)
                 this.SA_host_value = res.data[0].value;
             }).catch(err => console.log(err));
         },        

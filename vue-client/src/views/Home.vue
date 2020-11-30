@@ -1,8 +1,8 @@
 <template>
     <div class="home">
         <div class="container">
-            <h1 class="title">MIN-OA安全感知系统平台</h1>
-            <p class="lead"> 欢迎你来到MIN-OA安全感知系统平台! </p>
+            <h1 class="title">MIN-VPN安全感知系统平台</h1>
+            <p class="lead"> 欢迎你来到MIN-VPN安全感知系统平台! </p>
         </div>
     </div>
 </template>

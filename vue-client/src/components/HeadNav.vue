@@ -1,6 +1,6 @@
 <template>
-    <header class="head-nav">
-        <el-row>
+    <div class="head-nav">
+        <el-row :type="flex" :justify="center">
             <el-col :span="6" class='logo-container'>
                 <img src="../assets/logo.png" class='logo' alt="">
                 <span class='title'>MIN-OA安全感知系统</span>
@@ -30,7 +30,7 @@
 
         </el-row>
 
-    </header>
+    </div>
 </template>
 <script>
 export default {

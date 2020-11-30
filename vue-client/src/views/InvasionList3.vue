@@ -173,7 +173,7 @@ export default {
 
         getAlert(){
             this.$axios.get('/api/ids_log/users_frequency').then(res => {
-            
+            console.log(res.data);
             this.tableData = res.data;
             this.allTableData = res.data;
             this.filterTableData = res.data;
@@ -193,7 +193,7 @@ export default {
                 username:row.username
                 }}
                 ).then(res => {        
-
+            
             var list_x = [];           
             if(res.data!=undefined){
                
@@ -228,6 +228,7 @@ export default {
                 username:row.username
                 }}
                 ).then(res => {
+            console.log(res.data);
             console.log("chart_y data");   
             var list_y = [];
             var result = res.data;

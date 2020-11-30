@@ -116,7 +116,7 @@ export default {
     methods:{
         getAlert(){
             this.$axios.get('/api/ids_log/ids_log').then(res => {
-            console.log(res);
+            console.log(res.data);
             this.tableData = res.data;
             this.allTableData = res.data;
             this.filterTableData = res.data;

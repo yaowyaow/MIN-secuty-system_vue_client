@@ -4,7 +4,7 @@
             <div class="manage_tip">
                 <span class="title">OA安全感知系统</span>
                 <!-- 调用element form组件表单  对应 rules="rules" -->
-                <el-form :model="registerUser"  :rules="rules" ref="resetFrom" label-width="80px" class="registerForm">
+                <el-form :model="registerUser"  :rules="rules" ref="registerForm" label-width="80px" class="registerForm">
                     
                     <el-form-item label="用户名" prop="name">
                         <el-input  v-model="registerUser.name" placeholder="请输入用户名"></el-input>
@@ -30,10 +30,10 @@
                     </el-form-item>
                     
                     <el-form-item>
-                        <el-button type="primary" class="submit_btn"  @click="submitFrom('resetFrom')">注册</el-button>
+                        <el-button type="primary" class="submit_btn"  @click="submitForm('registerForm')">注册</el-button>
                         
-                </el-form-item>
-</el-form>
+                    </el-form-item>
+                </el-form>
             </div>
         </section>
     </div>
@@ -74,11 +74,11 @@ export default {
                 ],
                 password:[
                     {required:true,message:"密码不能为空",trigger:"blur"},
-                    {min:6,max:30,message:"长度在6到8之间",trigger:"blur"}
+                    {min:6,max:30,message:"长度在6到30之间",trigger:"blur"}
                 ],
                 password2:[
-                    {required:true,message:"密码不能为空",trigger:"blur"},
-                    {min:6,max:30,message:"长度在6到8之间",trigger:"blur"},
+                    {required:true,message:"确认密码不能为空",trigger:"blur"},
+                    {min:6,max:30,message:"长度在6到30之间",trigger:"blur"},
                     {validator:validatePass2,trigger:"blur"}
                 ]
             }
@@ -86,7 +86,7 @@ export default {
     },
     methods:{
         //点击注册的方法
-        submitFrom(formName){
+        submitForm(formName){
 
             this.$refs[formName].validate((valid) => {
                 if (valid) {
@@ -97,8 +97,9 @@ export default {
                             type:'success'
                         });
 
-                        this.$router.push('/login');
-                    })
+                        
+                    });
+                    this.$router.push('/login');
                 } 
             });
         

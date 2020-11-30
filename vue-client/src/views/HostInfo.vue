@@ -156,6 +156,7 @@ export default {
     methods:{
         getHostInfo(){
             this.$axios.get('/api/host_info/hostinfo').then(res => {
+            console.log(res.data)
             this.tableData = res.data;
             this.allTableData = res.data;
             this.filterTableData = res.data;
@@ -165,6 +166,7 @@ export default {
         },
         getEthInfo(){
             this.$axios.get('/api/eth_info/ethinfo').then(res => {
+            console.log(res.data)
             this.tableData = res.data;
             this.allTableData = res.data;
             this.filterTableData = res.data;
