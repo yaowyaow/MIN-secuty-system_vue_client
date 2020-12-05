@@ -15,19 +15,19 @@
             <el-table
             v-if="tableData.length > 0"
             :data="tableData"
-            max-height="700"
+            max-height="450"
             border
             :default-sort="{prop: '_id', order: '-1'}"
             style="width: 100%"
             >
-                <el-table-column prop="_id" label="序号" align="center" width="110"></el-table-column>
+                <el-table-column prop="_id" label="序号" align="center" width="100"></el-table-column>
                 <el-table-column prop="Time" label="访问时间" align="center" width="200" sortable>
                 
                 </el-table-column>
                 <el-table-column prop="username" label="姓名" align="center" width="150"></el-table-column>
                 <el-table-column prop="command" label="访问服务" align="center" width="150"></el-table-column>
                 <el-table-column prop="request" label="请求前缀" align="center" width="300"></el-table-column>
-                <el-table-column prop="packet_type" label="兴趣包/数据包" align="center" width="150"></el-table-column>
+                <el-table-column prop="danger" label="危险信息" align="center" ></el-table-column>
                 <el-table-column prop="operation" align="center" label="操作" fixed="right" width="240">
                   <template slot-scope="scope">
                     <el-button type="warning" icon="edit" size="small"
@@ -61,7 +61,6 @@
                  width="50%"
                  center>
                  <span>{{this.full_log}}</span>
-                 
                  <span slot="footer" class="dialog-footer">
                  <el-button @click="centerDialogVisible = false">取 消</el-button>
                  <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
@@ -71,24 +70,22 @@
 
 </template>
 <script>
-import moment from 'moment';
+
 export default {
     name:'invasionList1',
     data(){
         return{
-            ip: null,
+            full_log: "",
             tableData:[], 
             alltableData:[],
-            filterTableData: [],
-            full_log:null,  
-            // form:{
-            //     "_id": "",
-            //     "username": "",
-            //     request:"",
-            //     packet_type: "",
-            //     full_log:"",
-            //     Time:""
-            // },
+            filterTableData: [],  
+            form:{
+                "_id": "",
+                "username": "",
+                request:"",
+                packet_type: "",
+                Time:""
+            },
             centerDialogVisible: false,
             //需要给分页组件传的信息
             paginations: {
@@ -111,108 +108,38 @@ export default {
     }
     },
     created(){
-        // this.alltableData=[{
-        //     _id: "5fa8a7c0968a5ef6d3dcb333",
-        //     Time: "2020-11-09 10:21:52",
-        //     username: "null",
-        //     command: "null",
-        //     request: "/min/gdcni11",
-        //     packet_type: "data_packt",
-        // },
-        // {
-        //     _id: "5fa8a7c0968a5ef6d3dcb332",
-        //     Time: "2020-11-09 10:21:52",
-        //     username: "null",
-        //     command: "null",
-        //     request: "/min/gdcni11",
-        //     packet_type: "data_packt",
-        // }]
-        // this.tableData=this.alltableData;
-        // this.filterTableData=this.alltableData;
-        // this.ip= "192.168.1.16"
-        this.ip=localStorage.getItem('ip');
         this.getAlert();
-        //this.setPaginations();
     },
-
-    
     methods:{
         getAlert(){
-            this.tableData=[];
-            this.alltableData=[];
-            this.filterTableData=[];
-            console.log("参数===>"+this.ip);
-            this.$axios.put('/api/nodes_msg/nodes_packet_flow',{params:{
-                ip:this.ip
-            }}).then(res => {
-                // console.log(res);
-                console.log(res);
-                // console.log(res.data[0]);       //string类型
-                // this.tableData = JSON.parse(res.data[0]);
-                // this.tableData = JSON.parse(res.data);
-                for(var i=0; i<res.data.length; ++i){
-                    // console.log(res.data[i]);
-                    this.tableData.push(JSON.parse(res.data[i]));
-                }
-                // this.tableData = res.data;
-                // console.log("源端口2==>"+this.tableData[1]["sport"]);
-                // console.log(typeof this.tableData[1]);
-                // console.log("表格数据"+this.tableData[1]);
-                // console.log("源端口1==>"+this.tableData[1].sport);
-                // console.log("源端口2==>"+this.tableData[1]["sport"]);
-                this.allTableData = this.tableData;
-                this.filterTableData = this.tableData;
-                // // 设置分页数据
-                this.setPaginations();
-            }).catch(err => console.log(err));
-        },
-        // getAlertwithTime()未被调用
-        getAlertwithTime(){
-            this.$axios.put('/api/nodes_msg/nodes_packet_time',{params:{
-                time_s:stime,
-                time_e:endTime
-            }}).then(res => {
+            this.$axios.get('/api/ids_log/event_log').then(res => {
             console.log(res);
+            console.log(typeof res.data[0]);
             this.tableData = res.data;
             this.allTableData = res.data;
             this.filterTableData = res.data;
             // // 设置分页数据
             this.setPaginations();
             }).catch(err => console.log(err));
+        },        
+        //删除信息函数  目前服务器未实现
 
-        },
-
-        //删除信息函数 
-        onDelete(index,row){
-            // 删除
-            this.$axios.put(`/api/nodes_msg/nodes_packet_del`,{params:{
-                ip: this.ip, 
-                id: row._id
-            }})
-            
-            this.$message("删除成功");
-            this.getAlert();
-        },
         //显示详细信息
-        // showDetail(index,row){
-        //     this.centerDialogVisible =true;
-        //     console.log("_____________________________________",row);
-        //     console.log(this.ip);
-        //     console.log(row._id);
-        //     this.$axios.put('/api/nodes_msg/nodes_packet_detail',{params:{
-        //         ip: this.ip, 
-        //         id: row._id
-        //     }}).then(res =>{
-        //         console.log(res.data);
-        //         this.full_log=res.data;
-        //     });
-        //     return this.full_log;          
-        // },
         showDetail(index,row){
             this.centerDialogVisible =true;
             this.full_log = row.data;
             return this.full_log;          
         },
+
+        onDelete(index,row){
+            // 删除
+            this.$axios.put(`/api/ids_log/event_log_del`,{params:{_id:row._id}});
+            
+            this.$message("删除成功");
+            this.getAlert();
+        },
+
+
         setPaginations() {
             // 总页数属性
             this.paginations.total = this.allTableData.length;
@@ -247,8 +174,7 @@ export default {
                 // 筛选
         onScreeoutMoney() {
             // 筛选
-            
-             
+
             
             if (!this.search_data.startTime || !this.search_data.endTime) {
                 this.$message({
@@ -260,37 +186,21 @@ export default {
             }
             var stime = this.search_data.startTime;
             var etime = this.search_data.endTime;
-            //$moment(stime).format('YYYY-MM-DD HH:mm:ss');
-            //console.log(Vue.prototype.$moment());
+           
             console.log("moment test");
             stime = this.time(stime);
             etime = this.time(etime);
-            console.log("起始时间==>"+stime)
-            this.$axios.put('/api/nodes_msg/nodes_packet_time',{params:{
+            
+            this.$axios.put('/api/ids_log/event_log_time',{params:{
                 time_s:stime,
-                time_e:etime,
-                ip: this.ip
+                time_e:etime
             }}).then(res => {
-                console.log(res);
-                console.log(this.tableData)
-                this.tableData=[];
-                this.alltableData=[];
-                this.filterTableData=[];
-                
-                console.log("返回数组长度==>"+res.data.length)
-                // for(var i=0; i<res.data.length; ++i){
-                //     // console.log(res.data[i]);
-                //     this.tableData.push(JSON.parse(res.data[i]));
-                // }
-                // console.log("数组长度==>"+this.tableData.length)
-                // this.alltableData= this.tableData;
-                // this.filterTableData = this.tableData;
-                this.tableData = res.data;
-                this.allTableData = res.data;
-                this.filterTableData = res.data;
-                // // 设置分页数据
-                this.setPaginations();
-                console.log(this.alltableData);
+            console.log(res);
+            this.tableData = res.data;
+            this.allTableData = res.data;
+            this.filterTableData = res.data;
+            // // 设置分页数据
+            this.setPaginations();
             }).catch(err => console.log(err));
 
 
@@ -305,7 +215,7 @@ export default {
         },
         //时间戳转日期
         time(date) {
-        //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        
         var Y = date.getFullYear() + '-';
         var M = (date.getMonth()+1 <= 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
         var D = (date.getDate()+1 <= 10 ? '0'+(date.getDate()) : date.getDate())+' ' ;
@@ -313,9 +223,8 @@ export default {
         var m = (date.getMinutes()+1 <= 10 ? '0'+(date.getMinutes() ) : date.getMinutes() )+ ':';
         var s = (date.getSeconds()+1 <= 10 ? '0'+(date.getSeconds() ) : date.getSeconds());
         return Y+M+D+h+m+s;
-        },
 
-       
+    }
     },
 };
 </script>

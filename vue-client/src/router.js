@@ -52,7 +52,7 @@ const router = new Router({
       name: 'index2',
       component: Index2,
       children:[
-        {path:'',component:InvasionMapOf},
+        {path:'', name:"invasionMapOf",component:InvasionMapOf},
         {path:'/home',name:"home",component:Home},
         {path:'/invasionList1',name:"invasionList1",component:InvasionList1},
         {path:'/invasionList2',name:"invasionList2",component:InvasionList2},

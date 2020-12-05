@@ -31,7 +31,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><a href="#" class="default" style="width:24px">主机态势值</a></td>
+                            <td><a href="#" class="default">主机态势值</a></td>
                             <td>{{SA_host_value}}</td>
                         </tr>
                         <tr>
@@ -46,10 +46,10 @@
 
         <div class="monitor" id="attacksDiv">
             <div class="monitor-inner">
-                <table class="table table-condensed" id="attacksTable" >
-                    <thead width=90px>
-                        <tr >
-                            <th class="span2" >攻击源IP</th>
+                <table class="table table-condensed" id="attacksTable">
+                    <thead>
+                        <tr>
+                            <th class="span2">攻击源IP</th>
                             <th class="span2">攻击源地址</th>
                             <th class="span2">攻击目标IP</th>
                             <th class="span2">攻击目标地址</th>
@@ -109,7 +109,7 @@ export default {
     }
     },
     created(){
-        this.getScore();
+        //this.getScore();
     },
     mounted(){
         this.getScore();
@@ -120,10 +120,12 @@ export default {
     methods:{
         getScore(){
             this.$axios.get('/api/ids_log/SA_value').then(res => {
+                console.log(res.data)
                 this.SA_value = res.data[0].value;
             }).catch(err => console.log(err));
 
             this.$axios.get('/api/ids_log/SA_host_value').then(res => {
+                console.log(res.data)
                 this.SA_host_value = res.data[0].value;
             }).catch(err => console.log(err));
         },        
@@ -323,42 +325,6 @@ export default {
 
 
     /* monitor STARTS */
-
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-    tbody {
-        display: block;
-        overflow-x: hidden;
-        overflow-y: auto;
-        width: 100%;
-        height: 145px;
-    }
-    thead,
-    tbody tr {
-        display: table;
-        width: 10%;
-        table-layout: fixed;
-        word-break: break-all;
-    }
-
-    table tbody::-webkit-scrollbar {
-        width: 10px;
-    }
-    table tbody::-webkit-scrollbar-thumb {
-    background-color: #01f5f1;
-    border-radius: 5px;
-    }
-    table tbody::-webkit-scrollbar-track {
-    background-color: #004453;
-    }
-    table tbody::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(17, 177, 174);
-    }
-    table tbody::-webkit-scrollbar-thumb:active {
-    background-color: rgb(9, 136, 134);
-    }
     .monitor{
         border: 1px solid #fff;
         border-radius: 5px;
@@ -368,11 +334,9 @@ export default {
     }
     .monitor table{
         width: 100%;
-        table-layout: fixed;
     }
     .monitor-inner{
         height: 100%;
-        width: 100%;
         overflow: hidden;
     }
     .monitor-status{
@@ -407,8 +371,6 @@ export default {
         position: fixed;
         bottom: 0;
         left: 25%;
-        right: 25%;
-        
         height: 200px;
         padding: 12px 20px;
         box-sizing: border-box;
@@ -433,8 +395,5 @@ export default {
     }
     .attack-detail p{
         margin: 4px;
-    }
-    #sitesTable td{        
-        width:120px;
     }
 </style>

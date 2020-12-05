@@ -131,7 +131,7 @@
                     </div>
                     <div class="node">
                         已使用{{form_data.asset_server.disk.used}}/共{{form_data.asset_server.disk.total}}
-                        <el-progress :text-inside="true" :stroke-width="26" :percentage="disk_usage.toFixed(1)"></el-progress>
+                        <el-progress :text-inside="true" :stroke-width="26" :percentage="disk_usage.toFixed(1)" style="padding-top:2%;width:60%"></el-progress>
                     </div>
                 </div>     
             </div>
@@ -289,7 +289,7 @@ export default {
         let id = this.$route.query.id;
         this.$axios.get(`/api/asset_info/${id}`).then(res => {
             this.form_data = res.data;
-            console.log(this.form_data.asset_tag);
+            console.log(this.form_data);
         }).catch(err => console.log(err));
         
     },

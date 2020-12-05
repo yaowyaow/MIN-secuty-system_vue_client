@@ -5,31 +5,31 @@
                 class="el-menu-vertical-demo">
                 <router-link to="/home">
                     <el-menu-item index="0">
-                        
+                        <i class="fas fa-margin fa-home"></i>
                         <span slot="title">首页</span>
                     </el-menu-item>
                 </router-link>
                 <router-link to="/invasionList5">
                     <el-menu-item index="1">
-                        
+                        <i class="fas fa-margin fa-chart-line"></i>
                         <span slot="title">态势威胁值曲线</span>
                     </el-menu-item>
                 </router-link>
                 <router-link to="/invasionMap">
                     <el-menu-item index="2">
-                        
+                        <i class="fas fa-margin fa-map"></i>
                         <span slot="title">态势展示</span>
                     </el-menu-item>
                 </router-link>
                 <router-link to="/firewall">
                     <el-menu-item index="3">
-                        
+                        <i class="fas fa-margin fa-shield-alt"></i>
                         <span slot="title">防火墙</span>
                     </el-menu-item>
                 </router-link>
                 <router-link to="/VisNetwork">
                     <el-menu-item index="4">
-                        
+                        <i class="fas fa-margin fa-project-diagram"></i>
                         <span slot="title">网络拓扑</span>
                     </el-menu-item>
                 </router-link>
@@ -42,26 +42,7 @@ export default {
   name: "leftmenu",
   data() {
     return {
-      items: [
-        {
-          icon: "fa-exclamation-circle",
-          name: "流量检测",
-          path: "fund",
-            children: [{ path: "invasionList1", name: "流量日志" }, {path: "invasionList2", name: "恶意流量报警日志"}, {path: "invasionList3", name: "用户访问检测"}, {path: "invasionMap", name: "态势展示"}, {path: "invasionList5", name: "态势威胁值曲线"}, {path:"firewall", name: "防火墙"}]
-        },
-        {
-          icon: "fa-exclamation-triangle",
-          name: "主机检测",
-          path: "invasion",
-          children: [{ path: "fundList", name: "警告列表" },{ path: "HostInfo", name: "主机信息"},{ path: "VisNetwork", name: "网络拓扑" },{path: "AssetCenter", name: "资产中心"}]
-        },
-        {
-          icon: "fa-asterisk",
-          name: "信息管理",
-          path: "info",
-          children: [{ path: "infoshow", name: "个人信息" }, {path: "ueba", name: "UEBA"}]
-        }
-      ]
+      
     };
   }
 };

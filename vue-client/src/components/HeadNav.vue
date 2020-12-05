@@ -1,9 +1,9 @@
 <template>
     <div class="head-nav">
-        <el-row :type="flex" :justify="center">
+        <el-row :type="flex" justify="center">
             <el-col :span="6" class='logo-container'>
                 <img src="../assets/logo.png" class='logo' alt="">
-                <span class='title'>MIN-OA安全感知系统</span>
+                <span class='title'>MIN-VPN安全感知系统</span>
             </el-col>
             <el-col :span='6' class="user">
                 <div class="userinfo">

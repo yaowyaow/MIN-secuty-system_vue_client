@@ -177,17 +177,14 @@ require([
         // 攻击数据展现
         _renderAttacks: function(data){
             // render map
-            
             this.aMap.setAttacks(data);
 
             // render table
             var $tbody = $('#attacksTable').find('tbody');
-            $tbody.empty();
             // var $frags = [];
             $.each(data, function(i, v){
-                var $tr = $('<tr ><td width=16%>'+v['srcIp']+'</td><td width=16%>'+v['srcName']+'</td><td width=16%>'+v['destIp']+'</td><td width=16%>'+v['destName']+'</td><td width=16%>'+v['type']+'</td><td width=16%>'+v['time']+'</td></tr>');
+                var $tr = $('<tr><td>'+v['srcIp']+'</td><td>'+v['srcName']+'</td><td>'+v['destIp']+'</td><td>'+v['destName']+'</td><td>'+v['type']+'</td><td>'+v['time']+'</td></tr>');
                 $tbody.append($tr);
-                
             });
 
             // View.init里的延迟成员
@@ -200,9 +197,7 @@ require([
         getAttacks: function(){
             var that = this;
             //远程攻击数据
-            
             $.get("http://localhost:8080/api/ids_log/SA_event",function(data,status){
-                console.log(data);
                 that.attacksData = data;
                 that._renderAttacks(that.attacksData);
             });
@@ -218,16 +213,7 @@ require([
     // lazy load
     setTimeout(function(){
         View.getAttacks();
-    }, 0);
-
-    setInterval(() => {
-        /*
-        setTimeout(function(){
-            View.getAttacks();
-        }, 0);
-        */
-       location.reload();
-    }, 1000*10);
+    }, 16);
 
     setTimeout(function(){
         $('#sitesDiv').find('.J_changeMonitor').click();

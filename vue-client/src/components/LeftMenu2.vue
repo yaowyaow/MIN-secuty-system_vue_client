@@ -5,14 +5,14 @@
                 class="el-menu-vertical-demo">
                 <router-link to="/home">
                     <el-menu-item index="0">
-                        <i class="fa fa-margin fa-server"></i>
-                        <span slot="title">首页</span>
+                        <i class="fas fa-margin fa-backward"></i>
+                        <span slot="title">返回</span>
                     </el-menu-item>
                 </router-link>
                 <template  v-for="item in items" >
                     <el-submenu v-if="item.children" :index="item.path" :key="item.path">
                         <template slot="title">
-                            <i :class="'fa fa-margin '+item.icon"></i>
+                            <i :class="'fas fa-margin '+item.icon"></i>
                             <span slot="title">{{item.name}}</span>
                         </template>
                         <router-link v-for="(citem,cindex) in item.children" 

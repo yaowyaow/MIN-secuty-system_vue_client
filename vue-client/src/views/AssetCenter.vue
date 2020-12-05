@@ -1,6 +1,6 @@
 <template>
     <div class="fillcontain">
-        <div style = "display:inline-block; POSITION:absolute;top:8px;width:50%;height:300px" id="container" class="echarts" ></div>
+        <div style = "display:inline-block; POSITION:absolute;top:8px;width:50%;height:300px" id="container_1" class="echarts" ></div>
         <div style = "display:inline-block; POSITION:absolute;top:8px;width:50%;height:300px" id = "container_2"  ></div>
         
         <el-button class="addButton" :inline="true" type="primary" icon="view" @click="dialogServerVisible = true">添加资产</el-button>
@@ -43,16 +43,128 @@
             :default-sort="{prop: 'id', order: 'descending'}"
             style="width: 100%"
             >
-                <el-table-column prop="asset_id" label="资产ID" align="center" width="150"></el-table-column>
-                <el-table-column label="资产名称" align="center" width="150" >
+                <el-table-column type="expand">
+                  <template slot-scope="props">
+                    <div v-if="props.row.asset_type === 'server'">
+                        <div class="main">
+                            <div class="row">
+                                <div class="content-item">
+                                    <div class="key">
+                                        私网IP
+                                    </div>
+                                    <div class="node">
+                                        {{props.row.asset_server.net.private_ip===''?'数据暂缺':props.row.asset_server.net.private_ip}}
+                                    </div>
+                                </div>
+                                <div class="content-item">
+                                    <div class="key">
+                                        公网IP
+                                    </div>
+                                    <div class="node">
+                                        {{props.row.asset_server.net.public_ip}}
+                                    </div>
+                                </div>     
+                            </div>
+                            <div class="row">
+                                <div class="content-item">
+                                    <div class="key">
+                                        MAC地址
+                                    </div>
+                                    <div class="node">
+                                        {{props.row.asset_server.net.mac}}
+                                    </div>
+                                </div>    
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="content-item">
+                                <div class="key">
+                                    操作系统
+                                </div>
+                                <div class="node">
+                                    {{props.row.asset_server.system}}
+                                </div>
+                            </div>
+                            <div class="content-item">
+                                <div class="key">
+                                    内核版本
+                                </div>
+                                <div class="node">
+                                    {{props.row.asset_server.kernel}}
+                                </div>
+                            </div>     
+                        </div>
+                        <div class="row">
+                            <div class="content-item">
+                                <div class="key">
+                                    CPU
+                                </div>
+                                <div class="node">
+                                    {{props.row.asset_server.cpu}}
+                                </div>
+                            </div>
+                            <div class="content-item">
+                                <div class="key">
+                                    内存
+                                </div>
+                                <div class="node">
+                                    {{props.row.asset_server.memory}}
+                                </div>
+                            </div>     
+                        </div>
+                        <div class="row">                
+                            <div class="content-item">
+                                <div class="key">
+                                    硬盘
+                                </div>
+                                <div class="node">
+                                    已使用{{props.row.asset_server.disk.used}}/共{{props.row.asset_server.disk.total}}
+                                    <el-progress :text-inside="true" :stroke-width="26" :percentage="disk_usage(props.row.asset_server.disk.used,props.row.asset_server.disk.total)" style="padding-top:2%;width:60%"></el-progress>
+                                </div>
+                            </div>     
+                        </div>
+                    </div>
+                    <div v-else class="database-detail">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-table
+                                v-if="props.row.asset_databases.databases.length > 0"
+                                :data="props.row.asset_databases.databases"
+                                border
+                                :default-sort="{prop: 'id', order: 'descending'}"
+                                style="width: 100%"
+                                >
+                                    <el-table-column prop="name" label="数据库名称" align="center" width="150"></el-table-column>
+                                    <el-table-column prop="size" label="数据库大小" align="center" width="150"></el-table-column>
+                                </el-table>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-table
+                                v-if="props.row.asset_databases.users.length > 0"
+                                :data="props.row.asset_databases.users"
+                                border
+                                :default-sort="{prop: 'id', order: 'descending'}"
+                                style="width: 100%"
+                                >
+                                    <el-table-column prop="name" label="用户名" align="center" width="150"></el-table-column>
+                                    <el-table-column prop="dbs" label="数据库" align="center" width="150"></el-table-column>
+                                </el-table>
+                            </el-col>
+                        </el-row>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="asset_id" label="资产ID" align="center" ></el-table-column>
+                <el-table-column label="资产名称" align="center"  >
                     <template slot-scope="scope">
                     <el-button type="text" style="color:blue" title="点击查看资产详细信息" @click="get_detail(scope.row._id)">{{scope.row.asset_name}}</el-button>
                     </template>
                 </el-table-column>
-                <el-table-column prop="asset_type" label="资产类型" align="center" width="150"></el-table-column>
-                <el-table-column prop="asset_location" label="区域" align="center" width="200"></el-table-column>
-                <el-table-column prop="asset_tag" label="标签" align="center" width="200"></el-table-column>
-                <el-table-column prop="asset_security" label="安全状况" align="center" width="150"></el-table-column>
+                <el-table-column prop="asset_type" label="资产类型" align="center" ></el-table-column>
+                <el-table-column prop="asset_location" label="区域" align="center" ></el-table-column>
+                <el-table-column prop="asset_tag" label="标签" align="center" ></el-table-column>
+                <el-table-column prop="asset_security" label="安全状况" align="center" ></el-table-column>
             </el-table>
             <!-- 分页 -->
             <el-row>
@@ -129,7 +241,7 @@ export default {
     created(){
         this.getAssetInfo();
         this.$nextTick(function() {
-                this.drawPie1('container')
+                this.drawPie1('container_1')
                 this.drawPie2('container_2')
         })
         // this.tableData=[{
@@ -328,6 +440,9 @@ export default {
               id: id
             }
           })
+        },
+        disk_usage(disk_used,disk_total){
+          return ((parseFloat(disk_used)/parseFloat(disk_total))*100).toFixed(1);
         }
     }
 };
@@ -350,5 +465,31 @@ export default {
 .pagination {
   text-align: right;
   margin-top: 10px;
+}
+.row{
+    padding: 10px;
+}
+.content-item{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 8px;
+    margin-top: 2px;
+    width: 50%;
+    font:15px sans-serif;
+}
+.key{
+    position: absolute;
+    width: 100px;
+    left: 0;
+    color: #888;
+    padding-right: 10px;
+}
+.node{
+    padding-left: 100px;
+    word-break: break-all;
+}
+.main{
+    border-bottom: 1px dashed #c9c9c9;
 }
 </style>

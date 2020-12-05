@@ -15,7 +15,7 @@
             <el-table
             v-if="tableData.length > 0"
             :data="tableData"
-            max-height="450"
+            max-height="700"
             border
             :default-sort="{prop: '_id', order: '-1'}"
             style="width: 100%"
@@ -75,6 +75,7 @@ export default {
     name:'invasionList1',
     data(){
         return{
+            ip: null,
             full_log: "",
             tableData:[], 
             alltableData:[],
@@ -108,17 +109,27 @@ export default {
     }
     },
     created(){
+        this.ip=localStorage.getItem('ip');
         this.getAlert();
     },
     methods:{
         getAlert(){
-            this.$axios.get('/api/ids_log/event_log').then(res => {
-            console.log(res);
-            this.tableData = res.data;
-            this.allTableData = res.data;
-            this.filterTableData = res.data;
-            // // 设置分页数据
-            this.setPaginations();
+            this.tableData=[];
+            this.alltableData=[];
+            this.filterTableData=[];
+            console.log("参数===>"+this.ip);
+            this.$axios.put('/api/nodes_msg/nodes_event_log',{params:{
+                ip:this.ip
+            }}).then(res => {
+                console.log(res);
+                for(var i=0; i<res.data.length; ++i){
+                    // console.log(res.data[i]);
+                    this.tableData.push(JSON.parse(res.data[i]));
+                }
+                this.allTableData = this.tableData;
+                this.filterTableData = this.tableData;
+                // // 设置分页数据
+                this.setPaginations();
             }).catch(err => console.log(err));
         },        
         //删除信息函数  目前服务器未实现
@@ -132,7 +143,10 @@ export default {
 
         onDelete(index,row){
             // 删除
-            this.$axios.put(`/api/ids_log/event_log_del`,{params:{_id:row._id}});
+            this.$axios.put(`/api/nodes_msg/nodes_event_del`,{params:{
+                ip: this.ip, 
+                id: row._id
+            }})
             
             this.$message("删除成功");
             this.getAlert();
@@ -190,16 +204,31 @@ export default {
             stime = this.time(stime);
             etime = this.time(etime);
             
-            this.$axios.put('/api/ids_log/event_log_time',{params:{
+            this.$axios.put('/api/nodes_msg/nodes_event_time',{params:{
                 time_s:stime,
-                time_e:etime
+                time_e:etime,
+                ip: this.ip
             }}).then(res => {
-            console.log(res);
-            this.tableData = res.data;
-            this.allTableData = res.data;
-            this.filterTableData = res.data;
-            // // 设置分页数据
-            this.setPaginations();
+                console.log(res);
+                console.log(this.tableData)
+                this.tableData=[];
+                this.alltableData=[];
+                this.filterTableData=[];
+                
+                console.log("返回数组长度==>"+res.data.length)
+                // for(var i=0; i<res.data.length; ++i){
+                //     // console.log(res.data[i]);
+                //     this.tableData.push(JSON.parse(res.data[i]));
+                // }
+                // console.log("数组长度==>"+this.tableData.length)
+                // this.alltableData= this.tableData;
+                // this.filterTableData = this.tableData;
+                this.tableData = res.data;
+                this.allTableData = res.data;
+                this.filterTableData = res.data;
+                // // 设置分页数据
+                this.setPaginations();
+                console.log(this.alltableData);
             }).catch(err => console.log(err));
 
 

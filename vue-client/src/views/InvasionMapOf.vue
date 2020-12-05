@@ -46,10 +46,10 @@
 
         <div class="monitor" id="attacksDiv">
             <div class="monitor-inner">
-                <table class="table table-condensed" id="attacksTable">
-                    <thead>
+                <table class="table table-condensed" id="attacksTable" >
+                    <thead width=90px>
                         <tr>
-                            <th class="span2">攻击源IP</th>
+                            <th class="span2" >攻击源IP</th>
                             <th class="span2">攻击源地址</th>
                             <th class="span2">攻击目标IP</th>
                             <th class="span2">攻击目标地址</th>
@@ -75,6 +75,7 @@ export default {
     name:'invasionMap',
     data(){
         return{
+            ip:null,
             SA_value:[],
             SA_host_value:[],
             tableData:[], 
@@ -109,23 +110,41 @@ export default {
     }
     },
     created(){
+        this.ip=localStorage.getItem('ip');
         this.getScore();
     },
     mounted(){
-        this.getScore();
+        //this.getScore();
         let mapScript = document.createElement('script');
         mapScript.setAttribute('src', '../js/app/mainMap.js');
         document.head.appendChild(mapScript);
     },
     methods:{
         getScore(){
-            this.$axios.get('/api/ids_log/SA_value').then(res => {
-                this.SA_value = res.data[0].value;
-            }).catch(err => console.log(err));
+            console.log("参数===>"+localStorage.getItem('ip'));
+            // this.$axios.get('/api/ids_log/SA_value').then(res => {
+            //     this.SA_value = res.data[0].value;
+            // }).catch(err => console.log(err));
+            this.$axios.put('api/nodes_msg/nodes_SA_value', {
+                params:{
+                    ip: this.ip
+                }
+            }).then(res =>{
+                console.log(typeof res.data);
+                this.SA_value= JSON.parse(res.data).value;
+            })
 
-            this.$axios.get('/api/ids_log/SA_host_value').then(res => {
-                this.SA_host_value = res.data[0].value;
-            }).catch(err => console.log(err));
+            // this.$axios.get('/api/ids_log/SA_host_value').then(res => {
+            //     this.SA_host_value = res.data[0].value;
+            // }).catch(err => console.log(err));
+            this.$axios.put('api/nodes_msg/nodes_SA_host_value', {
+                params:{
+                    ip: this.ip
+                }
+            }).then(res =>{
+                //console.log(typeof res.data);
+                this.SA_host_value= JSON.parse(res.data).value;
+            })
         },        
         //删除信息函数  目前服务器未实现
 
@@ -323,6 +342,42 @@ export default {
 
 
     /* monitor STARTS */
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    tbody {
+        display: block;
+        overflow-x: hidden;
+        overflow-y: auto;
+        width: 100%;
+        height: 145px;
+    }
+    thead,
+    tbody tr {
+        display: table;
+        width: 10%;
+        table-layout: fixed;
+        word-break: break-all;
+    }
+
+    table tbody::-webkit-scrollbar {
+        width: 10px;
+    }
+    table tbody::-webkit-scrollbar-thumb {
+    background-color: #01f5f1;
+    border-radius: 5px;
+    }
+    table tbody::-webkit-scrollbar-track {
+    background-color: #004453;
+    }
+    table tbody::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(17, 177, 174);
+    }
+    table tbody::-webkit-scrollbar-thumb:active {
+    background-color: rgb(9, 136, 134);
+    }
     .monitor{
         border: 1px solid #fff;
         border-radius: 5px;
@@ -332,9 +387,11 @@ export default {
     }
     .monitor table{
         width: 100%;
+        table-layout: fixed;
     }
     .monitor-inner{
         height: 100%;
+        width: 100%;
         overflow: hidden;
     }
     .monitor-status{
@@ -369,6 +426,8 @@ export default {
         position: fixed;
         bottom: 0;
         left: 25%;
+        right: 25%;
+        
         height: 200px;
         padding: 12px 20px;
         box-sizing: border-box;
@@ -393,5 +452,8 @@ export default {
     }
     .attack-detail p{
         margin: 4px;
+    }
+    #sitesTable td{        
+        width:120px;
     }
 </style>

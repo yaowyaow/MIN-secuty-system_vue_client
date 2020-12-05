@@ -15,7 +15,7 @@
             <el-table
             v-if="tableData.length > 0"
             :data="tableData"
-            max-height="450"
+            max-height="700"
             border
             :default-sort="{prop: '_id', order: '-1'}"
             style="width: 100%"

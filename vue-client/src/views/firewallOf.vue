@@ -85,6 +85,7 @@ export default {
     name:'invasionList1',
     data(){
         return{
+            ip: null,
             SA_value:[],
             SA_host_value:[],
             tableData:[], 
@@ -132,6 +133,7 @@ export default {
     }
     },
     created(){
+      this.ip=localStorage.getItem('ip');
       console.log("***************************\nactivated tes\n");
         this.$socket.emit("request", "request");
         this.$socket.open();
@@ -202,9 +204,21 @@ export default {
     methods:{
 
         getAlert(){
-            this.$axios.get('/api/ids_log/SA_event').then(res => {
+            this.$axios.put('api/nodes_msg/nodes_SA_event', {
+                params:{
+                    ip: this.ip
+                }
+            }).then(res => {
             console.log(res.data);   
-            var result = res.data;
+            // var str = res.data.toString();
+            // console.log(str);
+            // var result = JSON.parse(str);
+            var result = [];
+            for(var i=0; i<res.data.length; ++i){
+                    //console.log(res.data[i]);
+                    result.push(JSON.parse(res.data[i]));
+            }
+            
             var attack_ip = {};
             if(result!=undefined){              
                 result.forEach(function(key, v) {
@@ -223,12 +237,13 @@ export default {
                     }
                 })
             }
+            console.log(result);
             console.log("***********",attack_ip,this.tableData,this.attack_ip);
             //console.log("||||||||||",res.data);
             this.attack_ip = attack_ip;
-            this.tableData = res.data;
-            this.allTableData = res.data;
-            this.filterTableData = res.data;
+            this.tableData = result;
+            this.allTableData = result;
+            this.filterTableData = result;
             // // 设置分页数据
             this.setPaginations();
             this.moreChart_2();
@@ -242,20 +257,24 @@ export default {
             
             console.log("_____________________________________",row,"|");
             if(row.ip_block == "加入黑名单"){
-              this.$axios.put(`/api/ids_log/SA_event_block`,{params:{srcIp:row.srcIp}});
-              row.ip_block = "取消黑名单";
+              this.$axios.put(`/api/nodes_msg/nodes_SA_ip_block`,{params:{mal_ip:row.srcIp, ip: this.ip}});
+            //   row.ip_block = "取消黑名单";
+               this.getAlert();
             }else if(row.ip_block == "取消黑名单"){
-              this.$axios.put(`/api/ids_log/SA_event_block_cancel`,{params:{srcIp:row.srcIp}});
-              
-              row.ip_block = "加入黑名单";
+              this.$axios.put(`/api/nodes_msg/nodes_SA_ip_cancel`,{params:{mal_ip:row.srcIp, ip: this.ip}});
+              this.getAlert();
+            //   row.ip_block = "加入黑名单";
             }
             return 1;          
         },
 
         cancelBlock(index,row){
             // 删除
-            this.$axios.put(`/api/ids_log/SA_event_del`,{params:{_id:row._id}});
-            console.log("shanchu:",scope)
+            this.$axios.put(`/api/nodes_msg/nodes_SA_event_del`,{params:{
+                id:row._id,
+                ip: this.ip
+            }});
+            //console.log("shanchu:",scope)
             this.$message("删除成功");
             this.getAlert();
         },
@@ -464,16 +483,26 @@ export default {
             stime = this.time(stime);
             etime = this.time(etime);
             
-            this.$axios.put('/api/ids_log/event_log_time',{params:{
+            this.$axios.put('/api/nodes_msg/nodes_SA_event_time',{params:{
                 time_s:stime,
-                time_e:etime
+                time_e:etime,
+                ip: this.ip
             }}).then(res => {
-            console.log(res);
-            this.tableData = res.data;
-            this.allTableData = res.data;
-            this.filterTableData = res.data;
-            // // 设置分页数据
-            this.setPaginations();
+                // console.log(res.data);
+                var result = [];
+                for(var i=0; i<res.data.length; ++i){
+                    //console.log(res.data[i]);
+                    result.push(JSON.parse(res.data[i]));
+                }
+                console.log(result)
+                this.tableData = result;
+                this.allTableData = result;
+                this.filterTableData = result;
+                // this.tableData = res.data;
+                // this.allTableData = res.data;
+                // this.filterTableData = res.data;
+                // // 设置分页数据
+                this.setPaginations();
             }).catch(err => console.log(err));
 
 
